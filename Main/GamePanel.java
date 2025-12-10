@@ -61,38 +61,6 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     @Override
-    // Sleep method
-    // public void run() {
-
-    //     double drawInterval = 1000000000/FPS; //0.016666 seconds
-    //     double nextDrawTime = System.nanoTime() + drawInterval;
-        
-    //     while (gameThread != null) {
-            
-    //         //Update informasi posisi karakter
-    //         update();
-
-    //         //Manampilkan informasi terbaru di layar
-    //         repaint();
-
-    //         try {
-    //             double remainingTime = nextDrawTime - System.nanoTime();
-    //             remainingTime = remainingTime / 1000000;
-
-    //             if (remainingTime < 0){
-    //                 remainingTime = 0;
-    //             }
-
-    //             Thread.sleep((long)remainingTime);
-
-    //             nextDrawTime += drawInterval;
-
-    //         } catch (InterruptedException e) {
-    //             e.printStackTrace();
-    //         }
-    //     }
-    // }
-
     //Delta loop method
     public void run() {
 
@@ -145,7 +113,6 @@ public class GamePanel extends JPanel implements Runnable{
 
         //Player
         player.draw(g2);
-
         g2.dispose();
     }
 }
