@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class OBJ_key extends SuperObject{
+public class OBJ_Key extends SuperObject{
 
-    public OBJ_key(){
+    public OBJ_Key(){
 
         name = "Key";
         try{
