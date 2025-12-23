@@ -13,15 +13,8 @@ public class NPC_Oldman extends Entity {
         direction = "down";
         speed = 1;
 
-        // solidArea = new Rectangle();
-        // solidArea.x = 8;
-        // solidArea.y = 16;
-        // solidAreaDefaultX = solidArea.x;
-        // solidAreaDefaultY = solidArea.y;
-        // solidArea.width = 32;
-        // solidArea.height = 32;
-
         getImage(); 
+        setDialogue();
     }    
 
     
@@ -35,6 +28,14 @@ public class NPC_Oldman extends Entity {
         left2 = setup("/res/npc/oldman_left_2");
         right1 = setup("/res/npc/oldman_right_1");
         right2 = setup("/res/npc/oldman_right_2");
+    }
+
+    public void setDialogue(){
+        dialogues[0] = "Hello, Sid.";
+        dialogues[1] = "So you here huh.";
+        dialogues[2] = "Now kill the Demon Lord for me";
+        dialogues[3] = "Im too old for this";
+        dialogues[4] = "I'll give you a reward after this";
     }
 
     public void setAction(){
@@ -59,5 +60,9 @@ public class NPC_Oldman extends Entity {
 
             actionLockCounter = 0;
         }
+    }
+
+    public void speak(){
+        super.speak();
     }
 }
