@@ -17,8 +17,6 @@ public class NPC_Oldman extends Entity {
         setDialogue();
     }    
 
-    
-
     public void getImage(){
         up1 = setup("/res/npc/oldman_up_1");
         up2 = setup("/res/npc/oldman_up_2");
@@ -31,11 +29,9 @@ public class NPC_Oldman extends Entity {
     }
 
     public void setDialogue(){
-        dialogues[0] = "Hello, Sid.";
-        dialogues[1] = "So you here huh.";
-        dialogues[2] = "Now kill the Demon Lord for me";
-        dialogues[3] = "Im too old for this";
-        dialogues[4] = "I'll give you a reward after this";
+        dialogues[0] = "Hello, Sid. \nSo you here huh.";
+        dialogues[1] = "Can you kill the Demon Lord for me? \nIm too old for this";
+        dialogues[2] = "I'll give you a reward after this";
     }
 
     public void setAction(){

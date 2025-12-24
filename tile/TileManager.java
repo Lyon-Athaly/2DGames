@@ -51,6 +51,7 @@ public class TileManager {
         setup(17, "water05", true);
         setup(18, "water06", true);
         setup(19, "water07", true);
+        
         setup(20, "water08", true);
         setup(21, "water09", true);
         setup(22, "water10", true);
@@ -61,6 +62,7 @@ public class TileManager {
         setup(27, "road01", false);
         setup(28, "road02", false);
         setup(29, "road03", false);
+
         setup(30, "road04", false);
         setup(31, "road05", false);
         setup(32, "road06", false);
@@ -72,6 +74,7 @@ public class TileManager {
         setup(38, "road12", false);
         setup(39, "earth", false);
         setup(40, "wall", true);
+
         setup(41, "tree", true);
     }
 
