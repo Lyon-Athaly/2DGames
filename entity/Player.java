@@ -4,9 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
-
 import Main.GamePanel;
 import Main.KeyHandler;
 import Main.UtilityTool;
@@ -54,6 +52,10 @@ public class Player extends Entity {
         worldY = gp.tileSize * 21;
         speed = 4;
         direction = "down";
+
+        // PLAYER HP
+        maxLife = 8;
+        life = maxLife;
     }
 
     public void update(){
@@ -86,6 +88,10 @@ public class Player extends Entity {
             int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
             interactNPC(npcIndex);
 
+            //CHECK EVENT COLLISION
+            gp.eHandler.checkEvent();
+
+            gp.keyH.enterPressed = false;
 
             //IF COLLISION IS FALSE, PLAYER CAN MOVE
             if (collisionOn == false){
@@ -127,8 +133,6 @@ public class Player extends Entity {
                 gp.npc[i].speak();
             }
         }
-
-        gp.keyH.enterPressed = false;
     }
 
     public void draw(Graphics2D g2){

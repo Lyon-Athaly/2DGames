@@ -26,28 +26,67 @@ public class KeyHandler implements KeyListener {
 
         // TITLE STATE
         if (gp.gameState == gp.titleState) {
-            if (code == KeyEvent.VK_W) {
-                gp.ui.commandNum--;
-                if (gp.ui.commandNum < 0) {
-                    gp.ui.commandNum = 2;
+            //Title Screen
+            if (gp.ui.titleScreenState == 0) {
+                if (code == KeyEvent.VK_W) {
+                    gp.ui.commandNum--;
+                    if (gp.ui.commandNum < 0) {
+                        gp.ui.commandNum = 2;
+                    }
+                }
+                else if (code == KeyEvent.VK_S) {
+                    gp.ui.commandNum++;
+                    if (gp.ui.commandNum > 2) {
+                        gp.ui.commandNum = 0;
+                    }
+                }
+                else if (code == KeyEvent.VK_ENTER) {
+                    if (gp.ui.commandNum == 0) {
+                        gp.ui.titleScreenState = 1;
+                    }
+                    else if (gp.ui.commandNum == 1) {
+                        // Comming soon
+                    }
+                    else if (gp.ui.commandNum == 2) {
+                        System.exit(0);
+                    }
                 }
             }
-            else if (code == KeyEvent.VK_S) {
-                gp.ui.commandNum++;
-                if (gp.ui.commandNum > 2) {
-                    gp.ui.commandNum = 0;
+            //Class Selection Screen
+            else if (gp.ui.titleScreenState == 1) {
+                if (code == KeyEvent.VK_W) {
+                    gp.ui.commandNum--;
+                    if (gp.ui.commandNum < 0) {
+                        gp.ui.commandNum = 5;
+                    }
                 }
-            }
-            else if (code == KeyEvent.VK_ENTER) {
-                if (gp.ui.commandNum == 0) {
+                else if (code == KeyEvent.VK_S) {
+                    gp.ui.commandNum++;
+                    if (gp.ui.commandNum > 5) {
+                        gp.ui.commandNum = 0;
+                    }
+                }
+                else if (code == KeyEvent.VK_ENTER) {
+                    if (gp.ui.commandNum == 0) {
+                        System.out.println("Fighter");
+                    }
+                    else if (gp.ui.commandNum == 1) {
+                        System.out.println("Archer");
+                    }
+                    else if (gp.ui.commandNum == 2) {
+                        System.out.println("Assasin");
+                    }
+                    else if (gp.ui.commandNum == 3) {
+                        System.out.println("Healer");
+                    }
+                    else if (gp.ui.commandNum == 4) {
+                        System.out.println("Mage");
+                    }
+                    else if (gp.ui.commandNum == 5) {
+                        gp.ui.titleScreenState = 0;
+                    }
                     gp.gameState = gp.playState;
                     gp.playMusic(0);
-                }
-                else if (gp.ui.commandNum == 1) {
-                    // Comming soon
-                }
-                else if (gp.ui.commandNum == 2) {
-                    System.exit(0);
                 }
             }
         }
@@ -73,7 +112,7 @@ public class KeyHandler implements KeyListener {
                 enterPressed = true;
             }
 
-            //Debug
+            //Debug FPS
             if(code == KeyEvent.VK_T){
                 if(checkDrawTime == false){
                     checkDrawTime = true;

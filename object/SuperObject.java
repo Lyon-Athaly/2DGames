@@ -9,7 +9,7 @@ import Main.UtilityTool;
 
 public class SuperObject {
 
-    public BufferedImage image;
+    public BufferedImage image, image2, image3;
     public boolean collision = false;
     public String name;
     public int worldX, worldY;
