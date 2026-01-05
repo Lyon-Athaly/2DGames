@@ -6,6 +6,8 @@ import java.util.Random;
 import Main.GamePanel;
 
 public class NPC_Oldman extends Entity {
+
+    
     
     public NPC_Oldman(GamePanel gp) {
         super(gp);
