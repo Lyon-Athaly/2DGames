@@ -1,30 +1,24 @@
 package entity;
 
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 import Main.GamePanel;
 import Main.KeyHandler;
-import Main.UtilityTool;
 
 public class Player extends Entity {
-    GamePanel gp;
     KeyHandler keyH;
-
     public final int screenX;
     public final int screenY;
-
-    //jumlah kunci yang dimiliki player
-    public int hasKey = 0;
+    int standCounter = 0;
 
     //constructor
     public Player(GamePanel gp, KeyHandler keyH){
 
-        this.gp = gp;
+        super(gp);
         this.keyH = keyH;
 
         screenX = gp.screenWidth/2 - gp.tileSize/2;
@@ -42,34 +36,27 @@ public class Player extends Entity {
         getPlayerImage();
     }
 
-    public BufferedImage setup(String imageName){
-        UtilityTool uTool = new UtilityTool();
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(getClass().getResourceAsStream("/res/player/" + imageName + ".png"));
-            image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return image;
-    }
-
     public void getPlayerImage(){
-        up1 = setup("boy_up_1");
-        up2 = setup("boy_up_2");
-        down1 = setup("boy_down_1");
-        down2 = setup("boy_down_2");
-        left1 = setup("boy_left_1");
-        left2 = setup("boy_left_2");
-        right1 = setup("boy_right_1");
-        right2 = setup("boy_right_2");
+        up1 = setup("/res/player/boy_up_1");
+        up2 = setup("/res/player/boy_up_2");
+        down1 = setup("/res/player/boy_down_1");
+        down2 = setup("/res/player/boy_down_2");
+        left1 = setup("/res/player/boy_left_1");
+        left2 = setup("/res/player/boy_left_2");
+        right1 = setup("/res/player/boy_right_1");
+        right2 = setup("/res/player/boy_right_2");
     }
 
     public void setDefaultValues(){
-        worldX = gp.tileSize * 23;
-        worldY = gp.tileSize * 21;
+        // PLAYER STARTING POINT
+        worldX = gp.tileSize * 12;
+        worldY = gp.tileSize * 13;
         speed = 4;
         direction = "down";
+
+        // PLAYER HP
+        maxLife = 8;
+        life = maxLife;
     }
 
     public void update(){
@@ -98,6 +85,18 @@ public class Player extends Entity {
             int objIndex = gp.cChecker.checkObject(this, true);
             pickUpObject(objIndex);
 
+            //CHECK NPC COLLISION
+            int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
+            interactNPC(npcIndex);
+
+            //CHECK MONSTER COLLISION
+            int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
+            ContactMonster(monsterIndex);
+
+            //CHECK EVENT COLLISION
+            gp.eHandler.checkEvent();
+
+            gp.keyH.enterPressed = false;
 
             //IF COLLISION IS FALSE, PLAYER CAN MOVE
             if (collisionOn == false){
@@ -123,44 +122,36 @@ public class Player extends Entity {
                 spriteCounter = 0;
             }
         }
+
+        if (invincible == true) {
+            invincibleCounter++;
+            if (invincibleCounter > 60) {
+                invincible = false;
+                invincibleCounter = 0;
+            }
+        }
     }
 
     public void pickUpObject(int i){
-        
-        if (i != 999) {
-            String objectName = gp.obj[i].name;
+        if (i != 999) {}
+    }
 
-            switch (objectName) {
-                case "Key":
-                    gp.playSE(1);
-                    hasKey++;
-                    gp.obj[i] = null;
-                    gp.ui.showMessage("Get a key");
-                    break;
-                case "Door":
-                    gp.playSE(3);
-                    if (hasKey > 0) {
-                        gp.obj[i] = null;
-                        hasKey--;
-                        gp.ui.showMessage("Door opened");
-                    } else{
-                        gp.ui.showMessage("Not enough key");
-                    }
-                    break;
-                case "Boots":
-                    gp.playSE(2);
-                    speed += 1;
-                    gp.obj[i] = null;
-                    gp.ui.showMessage("Speed up");
-                    break;
-                case "Chest":
-                    gp.ui.gameFinished = true;
-                    gp.stopMusic();
-                    gp.playSE(4);
-                    break;
-                default:
-                    break;
+    public void interactNPC(int i){
+        if (i != 999){
+            if (gp.keyH.enterPressed == true) {
+                gp.gameState = gp.dialogueState;
+                gp.npc[i].speak();
             }
+        }
+    }
+
+    public void ContactMonster(int i){
+        if (i != 999) {
+            if (invincible == false) {
+                life -= 1;
+                invincible = true;
+            }
+            
         }
     }
 
@@ -198,7 +189,11 @@ public class Player extends Entity {
                 }
                 break;
         }
+        
+        if (invincible == true) {
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+        }
         g2.drawImage(image, screenX, screenY, null);
-
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
     }
 }
